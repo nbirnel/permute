@@ -1,0 +1,49 @@
+.TH permute 1 permute\-0.0.1
+.SH NAME
+permute \- show permutations or combinations of lists
+.SH SYNOPSIS
+.B permute [OPTIONS] FILE
+.SH DESCRIPTION
+.B permute
+takes a file or standard in, 
+treats each line as a comma-delimited list,
+and outputs all permutations of that list,
+one permuation per output line.
+Optionally, 
+the output lists can be limited in length.
+.SH OPTIONS
+.LP
+.B -c 
+output unique combinations rather than all permutations.
+.LP
+.B -n NUMBER
+limit length of output lists to NUMBER
+.LP
+.B -d DELIMITER
+use DELIMITER rather than `,' to separate items of list.
+.SH EXAMPLES
+.LP
+.B echo '2,3,4' | permute -n 2
+  yields
+  2,3
+  2,4
+  3,2
+  3,4
+  4,2
+  4,3
+.LP
+.B echo '2,3,4' | permute -n 2 -c 
+  yields
+  2,3
+  2,4
+  3,4
+  
+.SH SEE ALSO
+.B ruby(1), ri permutation, ri combination
+.SH BUGS
+Order of output is not guaranteed.
+Probably others.
+.SH LICENSE
+Copyright 2013 
+.sp
+You may use this software however you like.

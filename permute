@@ -1,0 +1,46 @@
+#!/bin/ruby
+
+def usage(s)
+    $stderr.puts(s)
+    $stderr.puts("Usage: #{File.basename($0)}: [OPTIONS] file ...")
+    exit(2)
+end
+
+i = 0
+$delim = ","
+
+loop { case ARGV[0]
+    when '-c' then ARGV.shift; $combine = true
+    when '-n' then ARGV.shift; $numperm = ARGV.shift.to_i
+    when '-d' then ARGV.shift; $delim = ARGV.shift
+    when /--/ then ARGV.shift; break
+    when /^-/ then usage("Unknown option: #{ARGV[0].inspect}")
+    else break
+end; }
+
+list = Array.new
+
+while gets() do
+    line = $_.chomp
+    list = line.split($delim)
+    if defined? $numperm
+        if $numperm > list.length
+            warn "#{$numperm} greater than number of elements"
+        end
+    else
+        $numperm = list.length
+    end
+
+    if $combine
+        list.combination($numperm).to_a.each do |a|
+            puts a.join($delim)
+        end
+    else
+        list.permutation($numperm).to_a.each do |a|
+            puts a.join($delim)
+        end
+    end
+end
+
+
+
