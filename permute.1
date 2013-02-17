@@ -13,35 +13,49 @@ Optionally,
 the output lists can be limited in length.
 .SH OPTIONS
 .LP
+.B -p 
+output permutations. This is the default.
+.LP
 .B -c 
-output unique combinations rather than all permutations.
+output combinations rather than permutations \(em That is,
+order of elements in the resulting lists is not important.
+.LP
+.B -rp 
+output repeated permutations \(em That is,
+allow output elements to be repeated.
+.LP
+.B -rc 
+output repeated combinations \(em That is,
+order of elements in the resulting lists is not important, 
+and output elements may be repeated.
 .LP
 .B -n NUMBER
-limit length of output lists to NUMBER
+limit length of output lists to NUMBER.
 .LP
 .B -d DELIMITER
 use DELIMITER rather than `,' to separate items of list.
 .SH EXAMPLES
 .LP
-.B echo '2,3,4' | permute -n 2
-  yields
-  2,3
-  2,4
-  3,2
-  3,4
-  4,2
-  4,3
+What are my options for doing some chores?
 .LP
-.B echo '2,3,4' | permute -n 2 -c 
-  yields
-  2,3
-  2,4
-  3,4
-  
+.B echo 'make dinner,clean living room,change light bulb' | permute
+.LP
+What kind of two topping pizzas can I order?
+.LP
+.B echo 'sausage,pepperoni,mushroom,olive' | permute -n 2 -c 
+.LP
+A preliminary investigation of the children's game Cherry-Oh
+.LP
+.B echo 'n+=1,n+=2,n+=3,n+=4,n=0,n=(n<3 ? 0 : n-2),n=(n<3 ? 0 : n-2)' |\
+ permute -rp -n 8
 .SH SEE ALSO
-.B ruby(1), ri permutation, ri combination
+.B ruby(1), ri permutation, ri combination, ri repeated_permutation,
+.B ri repeated_combination
+.LP
+http://mathworld.wolfram.com/Permutation.html
 .SH BUGS
 Order of output is not guaranteed.
+(This is probably a feature, not a bug.)
 Probably others.
 .SH LICENSE
 Copyright 2013 

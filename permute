@@ -11,13 +11,14 @@ $delim = ","
 $operation = "permutation"
 
 loop { case ARGV[0]
-    when '-c' then ARGV.shift; $operation = "combination"
-    when '-rc' then ARGV.shift; $operation = "repeated_combination"
+    when '-p'  then ARGV.shift; $operation = "permutation"
+    when '-c'  then ARGV.shift; $operation = "combination"
     when '-rp' then ARGV.shift; $operation = "repeated_permutation"
-    when '-n' then ARGV.shift; $numperm = ARGV.shift.to_i
-    when '-d' then ARGV.shift; $delim = ARGV.shift
-    when /--/ then ARGV.shift; break
-    when /^-/ then usage("Unknown option: #{ARGV[0].inspect}")
+    when '-rc' then ARGV.shift; $operation = "repeated_combination"
+    when '-n'  then ARGV.shift; $numperm = ARGV.shift.to_i
+    when '-d'  then ARGV.shift; $delim = ARGV.shift
+    when /--/  then ARGV.shift; break
+    when /^-/  then usage("Unknown option: #{ARGV[0].inspect}")
     else break
 end; }
 
@@ -27,21 +28,16 @@ while gets() do
     line = $_.chomp
     list = line.split($delim)
     if defined? $numperm
-        if $numperm > list.length
+        if ($numperm > list.length) && ($operation !~ /repeated/)
             warn "#{$numperm} greater than number of elements"
         end
     else
         $numperm = list.length
     end
 
-    if $operation == "combination"
-        list.combination($numperm).to_a.each do |a|
-            puts a.join($delim)
-        end
-    else
-        list.permutation($numperm).to_a.each do |a|
-            puts a.join($delim)
-        end
+    method = list.method("#{$operation}")
+    method.call($numperm).to_a.each do |a|
+        puts a.join($delim)
     end
 end
 
