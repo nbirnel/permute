@@ -8,9 +8,12 @@ end
 
 i = 0
 $delim = ","
+$operation = "permutation"
 
 loop { case ARGV[0]
-    when '-c' then ARGV.shift; $combine = true
+    when '-c' then ARGV.shift; $operation = "combination"
+    when '-rc' then ARGV.shift; $operation = "repeated_combination"
+    when '-rp' then ARGV.shift; $operation = "repeated_permutation"
     when '-n' then ARGV.shift; $numperm = ARGV.shift.to_i
     when '-d' then ARGV.shift; $delim = ARGV.shift
     when /--/ then ARGV.shift; break
@@ -31,7 +34,7 @@ while gets() do
         $numperm = list.length
     end
 
-    if $combine
+    if $operation == "combination"
         list.combination($numperm).to_a.each do |a|
             puts a.join($delim)
         end
