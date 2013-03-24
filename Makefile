@@ -1,23 +1,16 @@
+PROG = permute
 PREFIX = /usr/local
 
-install :: permute permute.1
+install : $(PROG) $(PROG).1
 	mkdir -p ${DESTDIR}${PREFIX}/bin
-	cp -f permute ${DESTDIR}${PREFIX}/bin
-	chmod 755 ${DESTDIR}${PREFIX}/bin/permute
+	cp -f $(PROG) ${DESTDIR}${PREFIX}/bin
+	chmod 755 ${DESTDIR}${PREFIX}/bin/$(PROG)
 	mkdir -p ${DESTDIR}${PREFIX}/man/man1
-	cp -f permute.1 ${DESTDIR}${PREFIX}/man/man1
-	chmod 644 ${DESTDIR}${PREFIX}/man/man1/permute.1
+	cp -f $(PROG).1 ${DESTDIR}${PREFIX}/man/man1
+	chmod 644 ${DESTDIR}${PREFIX}/man/man1/$(PROG).1
 
-pdf :: permute.1
-	man -t ./permute.1 > permute.ps
-	ps2pdf permute.ps
+remove :
+	rm -f ${DESTDIR}${PREFIX}/bin/$(PROG)
+	rm -f ${DESTDIR}${PREFIX}/man/man1/$(PROG).1
 
-print-pdf :: permute.pdf
-	cygstart -p permute.pdf
-
-clean ::
-	rm -r permute.ps
-
-remove ::
-	rm -f ${DESTDIR}${PREFIX}/bin/permute
-	rm -f ${DESTDIR}${PREFIX}/man/man1/permute.1
+.PHONY : remove install
